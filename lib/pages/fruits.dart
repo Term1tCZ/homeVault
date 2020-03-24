@@ -1,25 +1,50 @@
 import 'package:flutter/material.dart';
 import '../models/item.dart';
-
+import '../widgets/add_fruit.dart';
 
 class Fruits extends StatefulWidget {
-  final List<Item> items;
-
-  Fruits(this.items);
-
   @override
   _FruitsState createState() => _FruitsState();
 }
 
+List<int> position = [0];
+int currentLenght;
+int fruitsNum = 0;
+final List<Item> userItem = [];
+
 class _FruitsState extends State<Fruits> {
-  int fruitsNum = 0;
+
+
+  String i;
+  final titleController = TextEditingController();
+
+  void addToSpecificFruit(index) {
+    print(index);
+    setState(() {
+      userItem[index].number++;
+    });
+  }
+
+  void removeFromSpecificFruit(index) {
+    print(index);
+    setState(() {
+      if (userItem[index].number <= 0) {
+        userItem[index].number = 0;
+      }
+      else {
+        userItem[index].number--;
+      }
+    });
+  }
 
   void addNewFruit() {
+    currentLenght = position.length;
     setState(() {
       fruitsNum++;
+      position.insert(0, currentLenght);
     });
 
-    print(fruitsNum);
+    //Navigator.of(context).pop();
   }
 
   @override
@@ -32,7 +57,7 @@ class _FruitsState extends State<Fruits> {
         margin: EdgeInsets.all(10),
         width: double.infinity,
         child: ListView.builder(
-          itemCount: fruitsNum,
+          itemCount: userItem.length,
           itemBuilder: (context, index) {
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -46,12 +71,29 @@ class _FruitsState extends State<Fruits> {
                         Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            Container(
-                              child: Text(
-                                '3 Apples',
-                                style: TextStyle(fontSize: 16),
-                              ),
-                              padding: EdgeInsets.all(10),
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  child: Text(
+                                    userItem[index].number.toString(),
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  padding: EdgeInsets.all(10),
+                                ),
+                                Container(
+                                  child: Text(
+                                    userItem[index].title,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                  padding: EdgeInsets.all(10),
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -62,11 +104,15 @@ class _FruitsState extends State<Fruits> {
                               children: <Widget>[
                                 IconButton(
                                   icon: Icon(Icons.add),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    addToSpecificFruit(index);
+                                  },
                                 ),
                                 IconButton(
                                   icon: Icon(Icons.remove),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    removeFromSpecificFruit(index);
+                                  },
                                 ),
                               ],
                             ),
@@ -84,9 +130,12 @@ class _FruitsState extends State<Fruits> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: addNewFruit,
+        //onPressed: addNewFruit,
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AddFruit()),);
+        },
         tooltip: 'Add a New Fruit',
-        backgroundColor: Colors.blue,
+        backgroundColor: Theme.of(context).accentColor,
       ),
     );
   }

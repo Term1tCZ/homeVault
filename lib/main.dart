@@ -10,7 +10,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.indigo,
+        accentColor: Colors.amber,
       ),
       home: MyHomePage(),
     );
@@ -23,9 +24,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Item> _userItem = [];
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
 //                        );
 //                      },
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => Fruits(_userItem)),);
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Fruits()),);
                       },
                     ),
                   ),

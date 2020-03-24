@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 
 class Item {
-  final int id;
+  final String id;
   final String title;
-  final int number;
+  int number;
 
   Item({
     @required this.id,
@@ -11,3 +11,4 @@ class Item {
     @required this.number,
   });
 }
+
